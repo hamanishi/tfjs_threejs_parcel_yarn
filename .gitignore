@@ -510,6 +510,7 @@ __pycache__/
 
 ### Parcel dist folder ###
 dist/
+.cache/
 
 
 # End of https://www.gitignore.io/api/osx,node,windows,webstorm,sublimetext,visualstudio,visualstudiocode
