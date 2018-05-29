@@ -1,3 +1,6 @@
+// parcl hack hmr js
+if (module.hot) {module.hot.accept(() => {window.location.reload();});}
+
 // styles
 import styles from './css/master.scss';
 
@@ -8,4 +11,5 @@ import WebGLApp from './js/webglapp';
 
 // init module
 var canvas = document.getElementById('app');
-var app = new WebGLApp(canvas);
+var app = new WebGLApp();
+app.main(canvas);

@@ -6,20 +6,17 @@ import vertexSource from '../shaders/vertex.glsl';
 import fragmentSource from '../shaders/fragment.glsl';
 
 export default class WebGLApp {
-	constructor(canvas) {
+	constructor() {
 		this.currentAngle = 0.0;
 		this.g_last = Date.now();
 		this.ANGLE_STEP = 50.0;
-
-		// start app
-		this.main(canvas);
 	}
 
 	main(canvas) {
 		// gt WebGL context
 		this.gl = Utils.getWebGLContext(canvas);
 		if (!this.gl) {
-			console.error('Failed to gt the rendering context for WebGL.');
+			console.error('Failed to get the rendering context for WebGL.');
 			return;
 		}
 
