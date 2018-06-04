@@ -15,6 +15,6 @@
     "node-sass": "^4.9.0"
 	},
 	"scripts": {
-		"start": "rm -rf .cache && rm -rf dist && parcel index.html"
+		"start": "rm -rf .cache && rm -rf dist && parcel index.html --open"
 	}
 }
