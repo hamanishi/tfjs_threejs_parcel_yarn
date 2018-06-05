@@ -7,9 +7,10 @@ import fragmentSource from '../shaders/fragment.glsl';
 
 export default class WebGLApp {
 	constructor() {
+		this.dinamics = {};
+
 		this.currentAngle = 0.0;
-		this.g_last = Date.now();
-		this.ANGLE_STEP = 50.0;
+		this.speed = 1.0;
 	}
 
 	main(canvas) {
@@ -43,8 +44,13 @@ export default class WebGLApp {
 		// set the aye point and view volume
 		var mvpMatrix = new Matrix4();
 
+		// object of dinamics values control
+		this.dinamics.n = n;
+		this.dinamics.u_MvpMatrix = u_MvpMatrix;
+		this.dinamics.mvpMatrix = mvpMatrix;
+
 		// init tick loop
-		this.tick(n, mvpMatrix, u_MvpMatrix);
+		this.tick();
 	}
 
 	initVertexBuffers() {
@@ -111,46 +117,35 @@ export default class WebGLApp {
 		return true;
 	}
 
-	tick(n, mvpMatrix, u_MvpMatrix) {
-		this.currentAngle = this.animate(this.currentAngle);
-		this.draw(n, mvpMatrix, u_MvpMatrix);
-
-		window.requestAnimationFrame(() => {
-			this.tick(n, mvpMatrix, u_MvpMatrix);
-		});
+	tick() {
+		this.currentAngle += this.speed;
+		this.draw();
+		window.requestAnimationFrame(this.tick.bind(this));
 	}
 
-	animate(angle) {
-		// calculate the elapsed time
-		var now = Date.now();
-		var elapsed = now - this.g_last; // milliseconds
-		this.g_last = now;
-
-		// update the current rotation angle (adjusted by elapsed time)
-		var newAngle = angle + (this.ANGLE_STEP * elapsed) / 1000.0;
-		return newAngle %= 360;
-	}
-
-	draw(n, mvpMatrix, u_MvpMatrix) {
+	draw() {
 		var gl = this.gl;
+		var dn = this.dinamics;
 
 		// set up notation matrix
-		mvpMatrix
+		dn.mvpMatrix
 			.setPerspective(30, 1, 1, 100)
 			.lookAt(
 				0, 0, 10, // eye point
 				0, 0, 0, // look-at point
 				0, 1, 0, // up direction
 			)
-			.rotate(this.currentAngle, 1, 1, 0);
+			.rotate(this.currentAngle, 1, 0, 0)
+			.rotate(this.currentAngle * 0.5, 0, 1, 0)
+			.rotate(this.currentAngle * 0.1, 0, 0, 1);
 
 		// pass the rotation matrix to the vertex shader
-		gl.uniformMatrix4fv(u_MvpMatrix, false, mvpMatrix.elements);
+		gl.uniformMatrix4fv(dn.u_MvpMatrix, false, dn.mvpMatrix.elements);
 
 		// clear the color and depth
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 		// draw the cube
-		gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
+		gl.drawElements(gl.TRIANGLES, dn.n, gl.UNSIGNED_BYTE, 0);
 	}
 }

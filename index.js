@@ -5,7 +5,7 @@ if (module.hot) {module.hot.accept(() => {window.location.reload();});}
 import styles from './css/master.scss';
 
 // instances
-import WebGLApp from './js/webglapp';
+import WebGLApp from './js/app';
 
 //-------------------------------------------------------------------------------
 
