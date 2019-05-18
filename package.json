@@ -8,13 +8,18 @@
   "dependencies": {
     "babel": "^6.23.0",
     "babel-preset-env": "^1.7.0",
+    "dat.gui": "^0.7.6",
     "parcel-bundler": "^1.8.1",
-    "parcel-plugin-shader-loader": "^1.0.0"
+    "parcel-plugin-shader-loader": "^1.0.0",
+    "three": "^0.104.0",
+    "three-orbit-controls": "82.1.0",
+    "three-orbitcontrols": "^2.102.1"
   },
   "devDependencies": {
+    "babel-core": "^6.26.3",
     "node-sass": "^4.9.0"
-	},
-	"scripts": {
-		"start": "rm -rf .cache && rm -rf dist && parcel index.html --open"
-	}
+  },
+  "scripts": {
+    "start": "rm -rf .cache && rm -rf dist && parcel index.html --open"
+  }
 }
